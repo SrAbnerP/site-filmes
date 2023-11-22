@@ -1,0 +1,5 @@
+package com.project.sitefilmes.model.repository;
+
+public interface RatingRepository {
+
+}

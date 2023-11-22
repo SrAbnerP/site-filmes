@@ -1,0 +1,5 @@
+package com.project.sitefilmes.service;
+
+public interface RatingService {
+
+}

@@ -1,0 +1,11 @@
+package com.project.sitefilmes.service;
+
+import org.springframework.stereotype.Service;
+
+import com.project.sitefilmes.model.Movie;
+
+@Service
+public interface MovieService {
+
+	Movie saveMovie(Movie movie);
+}

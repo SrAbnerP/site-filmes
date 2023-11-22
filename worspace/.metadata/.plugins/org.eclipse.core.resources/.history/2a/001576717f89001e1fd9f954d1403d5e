@@ -1,0 +1,5 @@
+package com.project.sitefilmes.model;
+
+public class Movie {
+
+}

@@ -1,0 +1,5 @@
+package com.project.sitefilmes.model.dto;
+
+public class RatingDTO {
+
+}
