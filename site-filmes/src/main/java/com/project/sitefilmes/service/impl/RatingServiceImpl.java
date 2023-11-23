@@ -1,39 +1,64 @@
 package com.project.sitefilmes.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.project.sitefilmes.exception.BusinessRuleException;
 import com.project.sitefilmes.model.Rating;
+import com.project.sitefilmes.model.repository.RatingRepository;
 import com.project.sitefilmes.service.RatingService;
 
 @Service
 public class RatingServiceImpl implements RatingService {
 
+	@Autowired
+	RatingRepository repository;
+
 	@Override
 	@Transactional
 	public Rating save(Rating rating) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return repository.save(rating);
 	}
 
 	@Override
+	@Transactional
 	public Rating update(Rating rating) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Objects.requireNonNull(rating.getId());
+		validate(rating);
+
+		return repository.save(rating);
 	}
 
 	@Override
-	public void delete(Rating rating) {
-		// TODO Auto-generated method stub
+	public void validate(Rating rating) {
+		if (rating.getText() == null || rating.getText().trim().equals("")) {
+			throw new BusinessRuleException("Informe um Comentario válido.");
+		}
 
+		if (rating.getGrade() == null || rating.getGrade() < 1 || rating.getGrade() > 5) {
+			throw new BusinessRuleException("Informe um Mês válido.");
+		}
+	}
+
+	@Override
+	@Transactional
+	public void delete(Rating rating) {
+
+		repository.delete(rating);
 	}
 
 	@Override
 	public List<Rating> getToIdMovie(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+
+		List<Rating> ratings = repository.findByIdMovie(id);
+
+		return ratings;
 	}
 
 }

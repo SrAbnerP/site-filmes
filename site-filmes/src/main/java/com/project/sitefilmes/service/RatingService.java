@@ -15,5 +15,7 @@ public interface RatingService {
 
 	void delete(Rating rating);
 
+	void validate(Rating rating);
+
 	List<Rating> getToIdMovie(Long id);
 }

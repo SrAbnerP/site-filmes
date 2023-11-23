@@ -1,0 +1,13 @@
+package com.project.sitefilmes.model.repository;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.project.sitefilmes.model.Movie;
+import com.project.sitefilmes.model.User;
+
+public interface MovieRepository extends JpaRepository<Movie, Long> {
+
+	Optional<Movie> findByTitle(String title);
+}
