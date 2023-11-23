@@ -25,13 +25,18 @@ public class Rating {
 	@Column(name = "grade")
 	private Integer grade;
 
+	@Column(name = "idMovie")
+	private Integer idMovie;
+
 	@ManyToOne
 	@JoinColumn(name = "id_user")
 	private User user;
 
-	@ManyToOne
-	@JoinColumn(name = "id_movie")
-	private Movie movie;
+	/*
+	 * @ManyToOne
+	 * 
+	 * @JoinColumn(name = "id_movie") private Movie movie;
+	 */
 
 	public Rating() {
 		super();
@@ -58,14 +63,6 @@ public class Rating {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public Movie getMovie() {
-		return movie;
-	}
-
-	public void setMovie(Movie movie) {
-		this.movie = movie;
 	}
 
 	public Long getId() {

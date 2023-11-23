@@ -1,0 +1,17 @@
+package com.project.sitefilmes.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.project.sitefilmes.model.dto.MovieDTO;
+
+@Service
+public interface TmdbApiService {
+
+	MovieDTO getMovieDetails(String movieId);
+
+	List<MovieDTO> getRandomMovies();
+
+	List<MovieDTO> getActionMovies(String genres);
+}

@@ -1,0 +1,13 @@
+package com.project.sitefilmes.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public interface TmdbApiService {
+
+	String getMovieDetails(String movieId);
+
+	String getRandomMovies();
+
+	String getActionMovies(String genres);
+}

@@ -22,6 +22,8 @@ public class RatingServiceImpl implements RatingService {
 	@Transactional
 	public Rating save(Rating rating) {
 
+		validate(rating);
+
 		return repository.save(rating);
 	}
 
@@ -42,7 +44,7 @@ public class RatingServiceImpl implements RatingService {
 		}
 
 		if (rating.getGrade() == null || rating.getGrade() < 1 || rating.getGrade() > 5) {
-			throw new BusinessRuleException("Informe um Mês válido.");
+			throw new BusinessRuleException("Informe uma Avaliação válida.");
 		}
 	}
 
@@ -54,7 +56,7 @@ public class RatingServiceImpl implements RatingService {
 	}
 
 	@Override
-	public List<Rating> getToIdMovie(Long id) {
+	public List<Rating> getByIdMovie(Long id) {
 
 		List<Rating> ratings = repository.findByIdMovie(id);
 

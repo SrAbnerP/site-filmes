@@ -1,0 +1,29 @@
+package com.project.sitefilmes.service.impl;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.project.sitefilmes.service.TmdbApiService;
+
+@Service
+public class TmdbApiServiceImpl implements TmdbApiService {
+
+	@Value("${tmdb.api.key}")
+	private String apiKey;
+
+	private String apiUrl = "https://api.themoviedb.org/3/movie/{movieId}?api_key=";
+
+	private final RestTemplate restTemplate;
+
+	public TmdbApiServiceImpl(RestTemplate restTemplate) {
+		this.restTemplate = restTemplate;
+	}
+
+	@Override
+	public String getMovieDetails(String movieId) {
+
+		return restTemplate.getForObject(apiUrl + apiKey, String.class, movieId);
+	}
+
+}

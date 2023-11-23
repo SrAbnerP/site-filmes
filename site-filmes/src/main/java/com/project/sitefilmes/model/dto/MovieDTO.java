@@ -2,21 +2,43 @@ package com.project.sitefilmes.model.dto;
 
 public class MovieDTO {
 
+	private Long id;
+
 	private String title;
 
-	private String releaseYear;
+	private String overview;
 
-	private String resume;
+	private String releaseDate;
+
+	private String posterPath;
 
 	public MovieDTO() {
 		super();
 	}
 
-	public MovieDTO(String title, String releaseYear, String resume) {
+	public MovieDTO(String title, String overview, String releaseDate, String posterPath) {
 		super();
 		this.title = title;
-		this.releaseYear = releaseYear;
-		this.resume = resume;
+		this.overview = overview;
+		this.releaseDate = releaseDate;
+		this.posterPath = posterPath;
+	}
+
+	public MovieDTO(Long id, String title, String overview, String releaseDate, String posterPath) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.overview = overview;
+		this.releaseDate = releaseDate;
+		this.posterPath = posterPath;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -27,20 +49,28 @@ public class MovieDTO {
 		this.title = title;
 	}
 
-	public String getReleaseYear() {
-		return releaseYear;
+	public String getOverview() {
+		return overview;
 	}
 
-	public void setReleaseYear(String releaseYear) {
-		this.releaseYear = releaseYear;
+	public void setOverview(String overview) {
+		this.overview = overview;
 	}
 
-	public String getResume() {
-		return resume;
+	public String getReleaseDate() {
+		return releaseDate;
 	}
 
-	public void setResume(String resume) {
-		this.resume = resume;
+	public void setReleaseDate(String releaseDate) {
+		this.releaseDate = releaseDate;
+	}
+
+	public String getPosterPath() {
+		return posterPath;
+	}
+
+	public void setPosterPath(String posterPath) {
+		this.posterPath = posterPath;
 	}
 
 }

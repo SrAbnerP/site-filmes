@@ -17,5 +17,5 @@ public interface RatingService {
 
 	void validate(Rating rating);
 
-	List<Rating> getToIdMovie(Long id);
+	List<Rating> getByIdMovie(Long id);
 }

@@ -1,13 +1,10 @@
 package com.project.sitefilmes.model;
 
-import java.util.Collection;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 
 @Entity
 public class Movie {
@@ -26,8 +23,9 @@ public class Movie {
 	@Column(name = "resume")
 	private String resume;
 
-	@OneToMany(mappedBy = "movie")
-	private Collection<Rating> ratings;
+	/*
+	 * @OneToMany(mappedBy = "movie") private Collection<Rating> ratings;
+	 */
 
 	public Movie() {
 		super();
