@@ -1,0 +1,49 @@
+package com.project.sitefilmes.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.project.sitefilmes.service.TmdbApiService;
+
+@RestController
+@RequestMapping("/api/movies")
+public class MovieController {
+
+	@Autowired
+	private TmdbApiService service;
+
+	@GetMapping
+	public ResponseEntity<?> getRandomMovies(@RequestParam(defaultValue = "20") int pageSize) {
+
+		return ResponseEntity.ok(service.getRandomMovies(pageSize));
+	}
+
+	@GetMapping("{genres}")
+	public ResponseEntity<?> getActionMovies(@RequestParam(defaultValue = "20") int pageSize,
+			@PathVariable("genres") Integer genres) {
+
+		if (genres.isEmpty()) {
+			return ResponseEntity.badRequest().body("Não foi possivel realizar a consulta. Genêro inválido.");
+		} else {
+			return ResponseEntity.ok(service.getActionMovies(genres, pageSize));
+		}
+	}
+
+	@GetMapping("{id}")
+	public ResponseEntity<?> getMovieById(@PathVariable("id") String id) {
+
+		return ResponseEntity.ok(service.getMovieById(id));
+	}
+
+	@GetMapping("{name}")
+	public ResponseEntity<?> searchMoviesByName(@PathVariable("name") String name) {
+
+		return ResponseEntity.ok(service.searchMoviesByName(name));
+	}
+
+}

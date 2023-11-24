@@ -1,8 +1,5 @@
 package com.project.sitefilmes.service.impl;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -31,28 +28,28 @@ public class TmdbApiServiceImpl implements TmdbApiService {
 	}
 
 	@Override
-	public List<MovieDTO> getRandomMovies(int pageSize) {
+	public String getRandomMovies(int pageSize) {
 		String apiUrl = "https://api.themoviedb.org/3/discover/movie" + "?api_key=" + apiKey + "&language=en-US"
 				+ "&sort_by=popularity.desc" + "&include_adult=false" + "&include_video=false" + "&page=1"
 				+ "&vote_count.gte=1000" + "&page_size=" + pageSize;
 
-		return Arrays.asList(restTemplate.getForObject(apiUrl, MovieDTO[].class));
+		return restTemplate.getForObject(apiUrl, String.class);
 	}
 
 	@Override
-	public List<MovieDTO> getActionMovies(String genres, int pageSize) {
+	public String getActionMovies(int genres, int pageSize) {
 		String apiUrl = "https://api.themoviedb.org/3/discover/movie" + "?api_key=" + apiKey + "&language=en-US"
 				+ "&sort_by=popularity.desc" + "&include_adult=false" + "&include_video=false" + "&with_genres="
 				+ genres + "&page=1" + "&vote_count.gte=1000" + "&page_size=" + pageSize;
 
-		return Arrays.asList(restTemplate.getForObject(apiUrl, MovieDTO[].class));
+		return restTemplate.getForObject(apiUrl, String.class);
 	}
 
 	@Override
-	public List<MovieDTO> searchMoviesByName(String query) {
+	public String searchMoviesByName(String query) {
 		String apiUrl = "https://api.themoviedb.org/3/search/movie" + "?api_key=" + apiKey + "&language=en-US"
 				+ "&query=" + query + "&include_adult=false";
-		return Arrays.asList(restTemplate.getForObject(apiUrl, MovieDTO[].class));
+		return restTemplate.getForObject(apiUrl, String.class);
 	}
 
 }

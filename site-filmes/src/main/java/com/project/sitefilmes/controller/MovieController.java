@@ -23,24 +23,24 @@ public class MovieController {
 		return ResponseEntity.ok(service.getRandomMovies(pageSize));
 	}
 
-	@GetMapping("{genres}")
+	@GetMapping("/genero/{genres}")
 	public ResponseEntity<?> getActionMovies(@RequestParam(defaultValue = "20") int pageSize,
-			@PathVariable("genres") String genres) {
+			@PathVariable("genres") Integer genres) {
 
-		if (genres.isEmpty()) {
+		if (genres == null) {
 			return ResponseEntity.badRequest().body("Não foi possivel realizar a consulta. Genêro inválido.");
 		} else {
 			return ResponseEntity.ok(service.getActionMovies(genres, pageSize));
 		}
 	}
 
-	@GetMapping("{id}")
+	@GetMapping("/detalhes/{id}")
 	public ResponseEntity<?> getMovieById(@PathVariable("id") String id) {
 
 		return ResponseEntity.ok(service.getMovieById(id));
 	}
 
-	@GetMapping("{name}")
+	@GetMapping("/buscar/{name}")
 	public ResponseEntity<?> searchMoviesByName(@PathVariable("name") String name) {
 
 		return ResponseEntity.ok(service.searchMoviesByName(name));
