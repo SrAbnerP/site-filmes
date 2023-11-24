@@ -1,0 +1,24 @@
+package com.project.sitefilmes.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.project.sitefilmes.model.Rating;
+
+@Service
+public interface RatingService {
+
+	Rating save(Rating rating);
+
+	Rating update(Rating rating);
+
+	void delete(Rating rating);
+
+	void validate(Rating rating);
+
+	List<Rating> getByIdMovie(Long id);
+
+	Optional<Rating> getById(Long id);
+}

@@ -1,6 +1,7 @@
 package com.project.sitefilmes.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,7 @@ public interface RatingService {
 
 	void validate(Rating rating);
 
-	List<Rating> getByIdMovie(Long id);
+	List<Rating> getByIdMovie(String id);
+
+	Optional<Rating> getById(Long id);
 }

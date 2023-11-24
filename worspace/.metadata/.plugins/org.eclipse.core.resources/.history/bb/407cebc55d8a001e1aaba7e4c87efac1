@@ -1,0 +1,76 @@
+package com.project.sitefilmes.controller;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.project.sitefilmes.exception.BusinessRuleException;
+import com.project.sitefilmes.model.Rating;
+import com.project.sitefilmes.model.User;
+import com.project.sitefilmes.model.dto.RatingDTO;
+import com.project.sitefilmes.service.RatingService;
+import com.project.sitefilmes.service.UserService;
+
+@RestController
+@RequestMapping("/api/ratings")
+public class RatingController {
+
+	@Autowired
+	private RatingService service;
+
+	@Autowired
+	private UserService userService;
+
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+	@PostMapping
+	public ResponseEntity<?> addRating(@RequestBody RatingDTO dto) {
+
+		LocalDate date = LocalDate.now();
+		String formattedDate = date.format(formatter);
+
+		try {
+			Rating rating = new Rating(dto.getText(), formattedDate, dto.getGrade(), dto.getIdMovie(),
+					userService.getById(dto.getUser()).get());
+
+			return new ResponseEntity<>(service.save(rating), HttpStatus.CREATED);
+		} catch (BusinessRuleException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+
+	@DeleteMapping("{id}")
+	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+
+		return service.getById(id).map(rating -> {
+			service.delete(rating);
+			return new ResponseEntity<>("Comentario deletado!",HttpStatus.NO_CONTENT);
+		}).orElseGet(() -> new ResponseEntity<>("Comentário não encontrado na base de dados", HttpStatus.BAD_REQUEST));
+
+	}
+
+	@PutMapping("{id}")
+	public ResponseEntity<?> upadate(@PathVariable("id") Long id, @RequestBody RatingDTO dto) {
+		return service.getById(id).map(findRating -> {
+			try {
+				User user = userService.getById(id).get();
+				Rating rating = new Rating(findRating.getId(), dto.getText(), findRating.getDate(), dto.getGrade(),
+						findRating.getIdMovie(), user);
+				return ResponseEntity.ok(service.update(rating));
+			} catch (BusinessRuleException e) {
+				return ResponseEntity.badRequest().body(e.getMessage());
+			}
+		}).orElseGet(() -> new ResponseEntity<>("Comentarío não encontrado na base de dados", HttpStatus.BAD_REQUEST));
+	}
+
+}

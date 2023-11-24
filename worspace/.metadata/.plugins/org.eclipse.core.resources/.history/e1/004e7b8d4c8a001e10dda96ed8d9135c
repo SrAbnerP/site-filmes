@@ -1,0 +1,24 @@
+package com.project.sitefilmes.service;
+
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.project.sitefilmes.model.User;
+
+@Service
+public interface UserService {
+
+	User authenticate(String email, String password);
+
+	User save(User user);
+
+	void delete(User user);
+
+	void validate(String name, String email, String senha);
+
+	Optional<User> getById(Long id);
+
+	Optional<User> update(Long id);
+
+}

@@ -1,0 +1,77 @@
+package com.project.sitefilmes.service.impl;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.project.sitefilmes.exception.AuthenticateError;
+import com.project.sitefilmes.exception.BusinessRuleException;
+import com.project.sitefilmes.model.User;
+import com.project.sitefilmes.model.repository.UserRepository;
+import com.project.sitefilmes.service.UserService;
+
+@Service
+public class UserServiceImpl implements UserService {
+
+	@Autowired
+	private UserRepository repository;
+
+	@Override
+	public User authenticate(String email, String password) {
+
+		Optional<User> user = repository.findByEmail(email);
+
+		if (!user.isPresent()) {
+			throw new AuthenticateError("Usuário não encontrado para o email informado.");
+		}
+
+		if (!password.equals(user.get().getPassword())) {
+			throw new AuthenticateError("Senha inválida.");
+		}
+
+		return user.get();
+	}
+
+	@Override
+	@Transactional
+	public User save(User user) {
+
+		validate(user.getName(), user.getEmail(), user.getPassword());
+		return repository.save(user);
+	}
+
+	@Override
+	@Transactional
+	public void delete(User user) {
+		repository.delete(user);
+
+	}
+
+	@Override
+	public void validate(String name, String email, String senha) {
+
+		boolean exist = repository.existsByEmail(email);
+		if (exist) {
+			throw new BusinessRuleException("Já existe um usuário cadastrado com este email.");
+		}
+
+		if (name == null || name.trim().equals("")) {
+			throw new BusinessRuleException("Informe um Nome válido.");
+		}
+
+		if (senha == null || senha.trim().equals("")) {
+			throw new BusinessRuleException("Informe uma Senha válida.");
+		}
+
+	}
+
+	@Override
+	public Optional<User> getById(Long id) {
+
+		Optional<User> user = repository.findById(id);
+		return Optional.ofNullable(user.get());
+	}
+
+}

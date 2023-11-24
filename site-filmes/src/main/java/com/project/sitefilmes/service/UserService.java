@@ -15,8 +15,10 @@ public interface UserService {
 
 	void delete(User user);
 
-	void validateEmail(String email);
+	void validate(String name, String email, String senha);
 
 	Optional<User> getById(Long id);
+
+	User update(User user);
 
 }

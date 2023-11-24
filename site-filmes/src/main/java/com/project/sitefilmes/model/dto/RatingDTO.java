@@ -10,19 +10,19 @@ public class RatingDTO {
 
 	private Long user;
 
-	private Long movie;
+	private String idMovie;
 
 	public RatingDTO() {
 		super();
 	}
 
-	public RatingDTO(String text, String date, Integer grade, Long user, Long movie) {
+	public RatingDTO(String text, String date, Integer grade, Long user, String idMovie) {
 		super();
 		this.text = text;
 		this.date = date;
 		this.grade = grade;
 		this.user = user;
-		this.movie = movie;
+		this.idMovie = idMovie;
 	}
 
 	public String getText() {
@@ -57,12 +57,12 @@ public class RatingDTO {
 		this.user = user;
 	}
 
-	public Long getMovie() {
-		return movie;
+	public String getIdMovie() {
+		return idMovie;
 	}
 
-	public void setMovie(Long movie) {
-		this.movie = movie;
+	public void setIdMovie(String idMovie) {
+		this.idMovie = idMovie;
 	}
 
 }

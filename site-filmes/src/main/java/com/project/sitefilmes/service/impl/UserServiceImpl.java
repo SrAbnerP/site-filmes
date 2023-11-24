@@ -1,5 +1,6 @@
 package com.project.sitefilmes.service.impl;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class UserServiceImpl implements UserService {
 			throw new AuthenticateError("Usuário não encontrado para o email informado.");
 		}
 
-		if (!password.equals(user.get().getPassword())) {
+		if ((!password.equals(user.get().getPassword())) || password == null || password.trim().equals("")) {
 			throw new AuthenticateError("Senha inválida.");
 		}
 
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public User save(User user) {
 
-		validateEmail(user.getEmail());
+		validate(user.getName(), user.getEmail(), user.getPassword());
 		return repository.save(user);
 	}
 
@@ -50,11 +51,23 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void validateEmail(String email) {
+	public void validate(String name, String email, String senha) {
+
+		if (email == null || email.trim().equals("")) {
+			throw new BusinessRuleException("Informe um Email válido.");
+		}
 
 		boolean exist = repository.existsByEmail(email);
 		if (exist) {
 			throw new BusinessRuleException("Já existe um usuário cadastrado com este email.");
+		}
+
+		if (name == null || name.trim().equals("")) {
+			throw new BusinessRuleException("Informe um Nome válido.");
+		}
+
+		if (senha == null || senha.trim().equals("")) {
+			throw new BusinessRuleException("Informe uma Senha válida.");
 		}
 
 	}
@@ -64,6 +77,14 @@ public class UserServiceImpl implements UserService {
 
 		Optional<User> user = repository.findById(id);
 		return Optional.ofNullable(user.get());
+	}
+
+	@Override
+	@Transactional
+	public User update(User user) {
+
+		Objects.requireNonNull(user.getId());
+		return repository.save(user);
 	}
 
 }

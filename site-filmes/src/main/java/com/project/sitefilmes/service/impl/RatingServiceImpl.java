@@ -2,6 +2,7 @@ package com.project.sitefilmes.service.impl;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,11 +57,17 @@ public class RatingServiceImpl implements RatingService {
 	}
 
 	@Override
-	public List<Rating> getByIdMovie(Long id) {
+	public List<Rating> getByIdMovie(String id) {
 
 		List<Rating> ratings = repository.findByIdMovie(id);
 
 		return ratings;
+	}
+
+	@Override
+	public Optional<Rating> getById(Long id) {
+
+		return repository.findById(id);
 	}
 
 }

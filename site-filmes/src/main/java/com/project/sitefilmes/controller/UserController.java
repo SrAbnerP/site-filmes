@@ -3,7 +3,9 @@ package com.project.sitefilmes.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +43,18 @@ public class UserController {
 		} catch (BusinessRuleException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
+	}
+
+	@PutMapping("{id}")
+	public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody UserDTO dto) {
+		return service.getById(id).map(findUser -> {
+			try {
+				User user = new User(id, dto.getName(), dto.getEmail(), dto.getPassword());
+				return ResponseEntity.ok(service.update(user));
+			} catch (BusinessRuleException e) {
+				return ResponseEntity.badRequest().body(e.getMessage());
+			}
+		}).orElseGet(() -> new ResponseEntity<>("Comentarío não encontrado na base de dados", HttpStatus.BAD_REQUEST));
 	}
 
 }

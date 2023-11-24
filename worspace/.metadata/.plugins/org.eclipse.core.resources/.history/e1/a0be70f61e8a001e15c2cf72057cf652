@@ -1,0 +1,5 @@
+package com.project.sitefilmes.controller;
+
+public class RatingController {
+
+}
